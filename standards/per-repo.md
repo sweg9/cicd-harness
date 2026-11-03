@@ -4,7 +4,7 @@ Each repo owns the items in its row and must satisfy the rules named there. "Gap
 
 | Repo | Owns | Must satisfy |
 |---|---|---|
-| `dataset` | Labels and manifests for the switch-panel photos (photos in S3) | Label schema below; C-05 and C-10 for every file; one whole photo session held out for testing; a test set is frozen and versioned, failure cases are added as a new version |
+| `dataset` | Labels and manifests for the switch-panel photos (photos in S3) | Label schema below; C-05 and C-10 for every file; an 80/20 split in which every session gives 20% of its photos to evaluation and near-duplicate photos stay on one side; the evaluation 20% is never used to revise prompts or labels; a test set is frozen and versioned, failure cases are added as a new version |
 | `ai-engine` | Detector (YOLO, 5 classes), fingerprints (DINOv2), sound events (YAMNet), VLM prompts, state verification, motion planner for the arm option (FR-01, FR-08, FR-09) | A-01 to A-08; detector every 5th frame; re-finding needs fingerprint similarity 0.7; planner swappable (C-13); detector precision and recall reproducible with the harness |
 | `backend-server` | FastAPI backend: Mapping Registry, Routine Engine, Control Orchestrator, channel adapters, Robot Abstraction Layer, safety gate, learning, run log, app API (FR-02 to FR-07, FR-10 to FR-12) | `data-model.md`; L-01 to L-08; C-03 autonomy policy; C-04 safety gate before every movement of the hand and the emergency stop; C-08 only `Verified` mappings; C-09 channel order and fallback; durable store (SQLite in the prototype); live updates to the app over a WebSocket |
 | `sim-demo` | Unity simulator, an auxiliary tool for the rough demo and tests without the real hardware | Same RAL interface as the real hand (C-13); connects to the Python hub over a WebSocket; builds through `build-sim-demo`. **Gap:** it is still an earlier prototype (a house with a mobile robot), has no switch panel with an arm or actuators, and does not connect to the hub |
@@ -21,7 +21,9 @@ The full spec is the labeling page of the wiki (https://sweg9.github.io/docs/dat
 | `image_id`, `consent` | Opaque id of a photo stored in S3, and its consent record |
 | `room_id` | One specific room in one home. Used for splitting |
 | `room_type` | The kind of room. A hint for the model |
-| `session` | One photo session. A whole session is kept aside for testing; one session never appears in both sets |
+| `session` | One visit to one place at one time of day. Every session gives 20% of its photos to the evaluation set |
+| `split` | `revise` (80%: revising prompts and labels) or `eval` (20%: measuring only) |
+| `burst` | Photos taken within a few seconds of each other share a burst id and always share a split |
 | `controls[].kind` | Control kind enum: `switch` `push_button` `toggle` `knob` `remote` |
 | `controls[].bbox`, `plate_bbox`, `press_point` | Ratios from 0 to 1 of the image |
 | `controls[].state` | `on` `off` `unknown` |

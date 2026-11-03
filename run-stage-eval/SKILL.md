@@ -10,7 +10,7 @@ The proposal sets **starting values**, not targets. This skill measures; it judg
 ## Input
 
 - Run log entries (`standards/execution-log.md`). Run `check-execution-log` first and use only the entries it accepts.
-- The held-out photo session with labels, for detector accuracy (FR-01).
+- The evaluation 20% of the photos (`split: eval`) with labels, for detector accuracy (FR-01). It is used only to measure, never to revise.
 
 ## Measures
 
@@ -23,7 +23,7 @@ The proposal sets **starting values**, not targets. This skill measures; it judg
 | Main and second checks disagreement rate | `checks.disagree` | FR-08 |
 | Decisions per risk class (act, ask, suggest) | `risk`, `decision` | FR-06 |
 | Time limits kept: VLM about 8 s, channel 5 s, effect wait 3 s | `stages`, `attempts` | FR-05, FR-07, FR-08 |
-| Detector precision and recall per kind on the held-out session | labels and detections | FR-01 |
+| Detector precision and recall per kind, and type and state accuracy, on the evaluation 20% | labels and detections | FR-01 |
 
 ## Output
 
