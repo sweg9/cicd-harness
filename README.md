@@ -1,30 +1,34 @@
 # harness
 
-스킬, 지켜야 할 규격, CI/CD를 한곳에서 관리하는 레포. 다른 6개 레포는 이 레포를 루트의 `skills/`로 참조한다(git submodule). 요구사항(FR/NFR)과 지표(E1~E10)는 [docs](https://github.com/sweg9/docs)의 `sim-demo/PRD.md`를 기준으로 한다.
+One place for the standards every repo must follow, the shared skills, and CI/CD. The other repos mount this repo as `skills/` at their root (git submodule). Requirements (FR, NFR) and metrics (E1 to E10) follow `sim-demo/PRD.md` in [docs](https://github.com/sweg9/docs), which is also published as the [wiki](https://sweg9.github.io/docs/).
 
-## 구성
+## Contents
 
-| 폴더 | 종류 | 하는 일 |
+| Folder | Kind | What it does |
 |---|---|---|
-| `standards/` | 규격 | 모든 레포가 반드시 지켜야 하는 규칙. 공통(C-01~12), AI 출력(A-01~08), 로그(L-01~08), 데이터 모델, 레포별 의무 |
-| `check-conformance/` | 스킬 | 코드, 프롬프트, 데이터가 규격을 지키는지 근거(파일과 줄)와 함께 점검 |
-| `check-execution-log/` | 스킬 | 단계 기록 로그(JSON Lines)가 규격에 맞는지 검증 |
-| `validate-dataset/` | 스킬 | 라벨 스키마, 개인정보, 학습·평가 분리를 점검 |
-| `check-fr-coverage/` | 스킬 | FR-01~16마다 테스트가 있는지 확인 |
-| `run-stage-eval/` | 스킬 | 로그에서 지표 E1~E10을 계산해 목표값과 비교 |
-| `trace-failure/` | 스킬 | 실패한 실행을 처음 실패한 단계에 귀속하고 원인을 분류 |
-| `prompt-regression/` | 스킬 | 프롬프트 새 버전을 고정 평가 세트로 이전 버전과 비교 |
-| `build-sim-demo/` | 스킬 | sim-demo를 macOS, Windows로 빌드하고 zip으로 묶음 |
-| `release-gate/` | 스킬 | 위 점검을 순서대로 돌려 go / no-go 판정 |
+| `standards/` | Standards | Mandatory rules for every repo: common (C-01 to C-12), AI output (A-01 to A-08), logs (L-01 to L-08), data model, per-repo obligations |
+| `check-conformance/` | Skill | Checks code, prompts and data against the standards, with file and line evidence |
+| `check-execution-log/` | Skill | Validates stage-record logs (JSON Lines) against the standard |
+| `validate-dataset/` | Skill | Checks the label schema, privacy and the train/evaluation split |
+| `check-fr-coverage/` | Skill | Checks that each of FR-01 to FR-16 has a test |
+| `run-stage-eval/` | Skill | Computes metrics E1 to E10 from logs and compares them with the targets |
+| `trace-failure/` | Skill | Attributes a failed run to the first failed stage and classifies the cause |
+| `prompt-regression/` | Skill | Compares a new prompt version with the previous one on a fixed evaluation set |
+| `build-sim-demo/` | Skill | Builds sim-demo for macOS and Windows and packages the zip files |
+| `release-gate/` | Skill | Runs the checks above in order and returns go or no-go |
 
-## 다른 레포에서 쓰기
+## Using it from another repo
 
-각 레포 루트의 `skills/`가 이 레포의 특정 커밋을 가리키고, `.claude/skills`는 `../skills`로 연결된다. 그래서 Claude Code를 열면 스킬이 바로 보인다.
+`skills/` at the root of each repo points to a specific commit of this repo, and `.claude/skills` links to `../skills`, so Claude Code sees the skills as soon as it opens the repo.
 
 ```bash
-git clone --recurse-submodules <레포 주소>
-git submodule update --init            # 이미 받은 레포에서
-git submodule update --remote skills   # 스킬 최신 버전으로 올리기, 그 뒤 커밋
+git clone --recurse-submodules <repo url>
+git submodule update --init            # in a repo that is already cloned
+git submodule update --remote skills   # move to the latest skills, then commit
 ```
 
-규격과 스킬은 이 레포에서만 고친다. 다른 레포의 `skills/` 안에서 직접 고치지 않는다.
+Standards and skills are changed only in this repo, never inside `skills/` of another repo. The docs wiki copies them at build time.
+
+## Language
+
+All documents and text in every repo are written in English. Code comments may be in Korean.
