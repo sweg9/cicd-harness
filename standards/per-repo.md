@@ -10,7 +10,7 @@ Each repo owns the items in its row and must satisfy the rules named there. "Gap
 | `sim-demo` | The Unity simulator demo | Shows S1 to S7 with these ids; behavior rules stay equal to PRD section 6; builds only through `build-sim-demo`; C-06 keys documented in the README. **Gap:** it shows its log on screen only and does not write stage records yet |
 | `live-demo` | The demo with a real camera and AI | C-05 (crop-only upload, opt-in), C-04 (visible stop control), C-03 (Capability Probe before the first run), L-01 to L-08 |
 | `docs` | PRD, plan, prompts, this team's decisions | Requirement ids never renumbered (C-01); targets marked as hypotheses; every standards change explained in its commit |
-| `cicd-harness` | Skills, standards, CI | Every merge into any repo passes the gate in `release-gate`; standards change only here |
+| `harness` | Skills, standards, CI | Every merge into any repo passes the gate in `release-gate`; standards change only here |
 
 ## Label schema (dataset)
 

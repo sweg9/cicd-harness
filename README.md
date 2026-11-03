@@ -1,4 +1,4 @@
-# cicd-harness
+# harness
 
 스킬, 지켜야 할 규격, CI/CD를 한곳에서 관리하는 레포. 다른 6개 레포는 이 레포를 루트의 `skills/`로 참조한다(git submodule). 요구사항(FR/NFR)과 지표(E1~E10)는 [docs](https://github.com/sweg9/docs)의 `sim-demo/PRD.md`를 기준으로 한다.
 

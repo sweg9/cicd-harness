@@ -1,6 +1,6 @@
 ---
 name: standards
-description: The mandatory standards every project repo (dataset, ai-engine, backend-server, sim-demo, live-demo, docs, cicd-harness) must follow - shared vocabulary, safety, privacy, logging, AI output and per-repo obligations. Read it before writing, reviewing or changing code, prompts, data or docs in any of these repos.
+description: The mandatory standards every project repo (dataset, ai-engine, backend-server, sim-demo, live-demo, docs, harness) must follow - shared vocabulary, safety, privacy, logging, AI output and per-repo obligations. Read it before writing, reviewing or changing code, prompts, data or docs in any of these repos.
 ---
 
 # Project standards
