@@ -16,7 +16,7 @@ Rules: the `standards` skill (`standards/common.md`, `ai-output.md`, `execution-
 |---|---|
 | C-02 | Other spellings of stages, control kinds, statuses, channels or results (for example `button`, `dial`, `wifi`, `PHYS`, `confirmed`) |
 | C-03 | Actions on medium or high-risk devices without asking; acting when the cloud VLM was not reached; missing independence step-down after rejections |
-| C-04 | A path to an arm command that does not pass the safety gate right before it; pressing a high-risk device; no emergency stop; more than 2 tries |
+| C-04 | A path to a hand command (arm or actuator) that does not pass the safety gate right before it; pressing a high-risk device; no emergency stop; more than 2 tries; actuator stroke or force not limited |
 | C-05 | Upload or storage of full frames or video; more than crops sent to the cloud; photos or faces in git; proactive features on by default |
 | C-06 | Missing reject, feedback, pause or stop controls; manual control that depends on the system |
 | C-07, L-01 to L-08 | Runs without a log entry; cancelled runs not logged; entries edited after writing; missing plain-language explanation |
@@ -25,7 +25,7 @@ Rules: the `standards` skill (`standards/common.md`, `ai-output.md`, `execution-
 | C-10 | Keys, tokens, passwords, personal data |
 | C-11 | Generated files, build outputs or logs committed; non-English text outside code comments |
 | C-12 | Time limits, thresholds, retries or weights written inline in logic instead of a settings file |
-| C-13 | Arm code that bypasses the RAL; a channel adapter with extra abilities; a hard-wired planner |
+| C-13 | Arm or actuator code that bypasses the RAL; a channel adapter with extra abilities; a hard-wired planner or hand option |
 | A-01 to A-08 | Model output used without schema validation; missing `confidence` or `reason`; prompts edited in place; personal data in prompts; a model answer overriding the policy or the gate |
 
 3. For a rule that cannot be checked from the code, write "not checkable here" and name who must confirm.

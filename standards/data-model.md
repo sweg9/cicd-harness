@@ -23,7 +23,7 @@ Source: proposal, section IV-A. The system remembers controls, devices, mappings
 | control `state` | `on` `off` `unknown` |
 | control `actions` | `press` `flip` `turn` |
 | mapping `status` | `Pending` `Verified` `Rejected` `Stale` |
-| `channel` | `IR` `WIFI` `BT` `ARM` |
+| `channel` | `IR` `WIFI` `BT` `ARM` (`ARM` is the physical press, by the arm or a linear actuator) |
 | device `risk` | `low` `medium` `high` |
 | `independence` | `act_and_tell` `ask_first` `suggest_only` |
 | routine `source` | `habit` `manual` |
@@ -31,7 +31,8 @@ Source: proposal, section IV-A. The system remembers controls, devices, mappings
 | `trigger` | `sensor` `time` `routine` |
 | check answer | `yes` `no` `unsure` |
 | run `result` | `success` `failure` `unsure` `cancelled` |
-| arm command | `move` `press` `release` `stop` |
+| hand command | `move` (arm) or `select` (actuator), `press`, `release`, `stop` |
+| hand option | `so101_arm` `linear_actuators` `unity_sim` `script` |
 
 ## Rules
 

@@ -17,7 +17,7 @@ description: Find why a run failed or was cancelled, using its run log entry, an
    - autonomy (FR-06): the policy chose ask or suggest; this is not a failure
    - channel (S5, FR-07): command not delivered, channel time-out
    - verification (FR-08): main check wrong, `unsure`, checks disagree
-   - arm (S6, FR-09 to FR-11): control not re-found (similarity below 0.7), safety gate failed, press failed twice
+   - hand (S6, FR-09 to FR-11): control not re-found (similarity below 0.7), no actuator faces the control, safety gate failed, press failed twice
    - learning (S7, FR-12): score or confidence not stored
 5. Check whether the fallback worked. A failed wireless command followed by a successful press is a working fallback, not a failed run.
 
