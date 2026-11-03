@@ -1,19 +1,35 @@
 ---
 name: check-fr-coverage
-description: Check that every functional requirement (FR-01 to FR-16) has at least one test, and report the gaps. Use before a release or when asked about test coverage against the requirements.
+description: Check that every requirement of the proposal (FR-01 to FR-12) has at least one test, and report the gaps. Use before a release or when asked about test coverage against the requirements.
 ---
 
 # Check FR coverage
 
-Requirements and their verification methods: https://github.com/sweg9/docs, `sim-demo/PRD.md`, section 3.
+Requirements, owners and starting values: https://sweg9.github.io/docs/product/requirements. FR-xx is requirement xx of the proposal.
 
 ## Steps
 
-1. List FR-01 to FR-16 with the verification method from the PRD (for example "Hazard-injection test" for FR-11).
-2. In the repos under test, find tests that name the FR id in a test name, a marker or a comment. Search for `FR-` ids, do not guess from file names.
-3. Mark each requirement as covered, partly covered (test exists but does not cover the stated verification) or missing.
-4. For FR-10 and FR-12, note that they apply from level L3 only. A missing physical-robot test is acceptable when the capability probe reports a lower level, and the report says so.
+1. List FR-01 to FR-12 with their owner and the behaviour to test. Typical tests:
+
+| FR | What a test must show |
+|---|---|
+| FR-01 | Five control kinds detected; a seen control is not added twice (fingerprint) |
+| FR-02 | A candidate starts `Pending`, becomes `Verified` only with a clear change and VLM agreement, becomes `Stale` when the control moves |
+| FR-03 | A wireless method is kept only after a verified test; 3 retries, then the resident is asked; no method left means arm target |
+| FR-04 | A habit (30 min window, 3 days) creates a routine; 3 rejections lower independence by one step |
+| FR-05 | Duplicate triggers within 10 s merge; VLM time-out leads to suggest only |
+| FR-06 | Act, ask or suggest for each risk class and confidence band |
+| FR-07 | No action without a `Verified` mapping; channels tried by score; arm only after all fail |
+| FR-08 | Main check decides; second checks only when it is unsure; `unsure` is failure for high risk |
+| FR-09 | Re-finding below similarity 0.7 cancels; homography maps a marker point correctly |
+| FR-10 | Person or pet in the work area cancels; high-risk devices are never pressed; emergency stop halts at once |
+| FR-11 | At most 2 tries, gate before each, state check after each |
+| FR-12 | Channel score uses 30% weight for the newest result; link confidence steps; every run is logged, including cancelled ones |
+
+2. In the repos under test, find tests that name the FR id in a test name, a marker or a comment. Search for `FR-` ids; do not guess from file names.
+3. Mark each requirement as covered, partly covered (a test exists but does not show the behaviour above) or missing.
+4. Arm tests may run with the Unity simulator or the script executor behind the RAL. Say which executor was used.
 
 ## Output
 
-A table of FR id, priority, test location and status. After it, the missing "M" (must) requirements first, then the "S" ones. Do not write tests unless asked.
+A table of FR id, owner, test location and status, then the missing ones first. Do not write tests unless asked.
