@@ -1,38 +1,42 @@
 # Data model and shared enumerations
 
-Source: design paper, section "Architecture and Data Model". A **Mapping** links an **Actuator** to a **Device**; a Device has one or more **ControlChannel**s; every execution leaves an **ExecutionLog** entry.
+Source: proposal, section IV-A. The system remembers controls, devices, mappings, channels, routines and runs.
 
-## Entities
+## Records
 
-| Entity | Fields |
+| Record | Fields |
 |---|---|
-| Actuator | `actuator_id`, `kind`, `pose`, `embedding`, `affordance` |
-| Mapping | `mapping_id`, `status`, `confidence`, `verified_at` |
-| Device | `device_id`, `name`, `type`, `room`, `risk_class` |
-| Routine | `routine_id`, `trigger`, `condition`, `action`, `autonomy_level` |
-| ControlChannel | `channel_id`, `type`, `params`, `success_rate`, `latency` |
-| ExecutionLog | `log_id`, `channel`, `outcome`, `verify_result`, `reason`, `ts` |
-
-Cardinality: Actuator 1..* Mapping, Mapping *..1 Device, Device *..* Routine, Device 1..* ControlChannel, Routine 1..* ExecutionLog, ControlChannel 1..* ExecutionLog.
+| Control | `control_id`, `kind`, `state`, `actions`, `position` (point on the panel), `fingerprint` (embedding), `seen_at` |
+| Device | `device_id`, `name`, `type`, `room`, `risk`, `channels` |
+| Mapping | `mapping_id`, `control_id`, `device_id`, `status`, `confidence` |
+| Channel | `device_id`, `channel`, `success_score`, `latency_ms` (running averages, newest result weighted 30%) |
+| Routine | `routine_id`, `mapping_id`, `action`, `time`, `source`, `independence`, `priority` |
+| Run | See `execution-log.md` |
 
 ## Enumerations (exact spelling)
 
 | Name | Values |
 |---|---|
 | stage | `S1` `S2` `S3` `S4` `S5` `S6` `S7` |
-| level | `L0` `L1` `L2` `L3` |
-| actuator `kind` | `switch` `button` `dial` `remote` |
-| channel `type` | `IR` `WIFI` `BT` `PHYS` |
-| mapping `status` | `candidate` `verified` `confirmed` `rejected` |
-| `risk_class` | `low` `medium` `high` |
-| `autonomy_level` | `suggest` `ask` `auto` |
-| `outcome` | `success` `failed` `cancelled` |
-| `verify_result` | `changed` `unchanged` `uncertain` `not_checked` |
+| phase | `setup` (S1 to S3), `runtime` (S4 to S6), `learning` (S7) |
+| control `kind` | `switch` `push_button` `toggle` `knob` `remote` |
+| control `state` | `on` `off` `unknown` |
+| control `actions` | `press` `flip` `turn` |
+| mapping `status` | `Pending` `Verified` `Rejected` `Stale` |
+| `channel` | `IR` `WIFI` `BT` `ARM` |
+| device `risk` | `low` `medium` `high` |
+| `independence` | `act_and_tell` `ask_first` `suggest_only` |
+| routine `source` | `habit` `manual` |
+| routine feedback | `keep` `change` `remove` |
+| `trigger` | `sensor` `time` `routine` |
+| check answer | `yes` `no` `unsure` |
+| run `result` | `success` `failure` `unsure` `cancelled` |
+| arm command | `move` `press` `release` `stop` |
 
 ## Rules
 
-- Identifiers are opaque strings, unique within their entity, and never reused.
-- `confidence` and `success_rate` are numbers in 0 to 1. `latency` is in milliseconds. `ts` is UTC, ISO 8601.
-- Positions in images are normalized to 0..1 of the image size. Positions in the home are in meters.
-- A `confirmed` mapping needs `verified_at`. Only `confirmed` mappings may be used by a proactive routine (C-08).
-- Mappings and logs are durable (FR-05, FR-16). A cache may hold copies; it is never the only copy.
+- Identifiers are opaque strings, unique within their record, and never reused.
+- `confidence` and `success_score` are numbers from 0 to 1. Durations are in milliseconds. Times are UTC, ISO 8601.
+- Positions in images are ratios from 0 to 1 of the image size. Positions on the panel come from the ArUco homography.
+- A mapping in any status other than `Verified` is never used to act (C-08).
+- Mappings, routines and runs are durable (SQLite in the prototype, backups in S3). A cache may hold copies; it is never the only copy.

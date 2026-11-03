@@ -1,17 +1,17 @@
 ---
 name: standards
-description: The mandatory standards every project repo (dataset, ai-engine, backend-server, sim-demo, live-demo, docs, harness) must follow - shared vocabulary, safety, privacy, logging, AI output and per-repo obligations. Read it before writing, reviewing or changing code, prompts, data or docs in any of these repos.
+description: The mandatory standards every project repo (dataset, ai-engine, backend-server, sim-demo, live-demo, docs, harness) must follow - shared vocabulary, autonomy by risk, safety, privacy, run log, AI output and per-repo obligations. Read it before writing, reviewing or changing code, prompts, data or docs in any of these repos.
 ---
 
 # Project standards
 
-These rules are mandatory. They come from the Phase 2 design (https://github.com/sweg9/docs, `sim-demo/PRD.md`) and make the seven repos work as one system. A rule has an id so that reviews, tests and the harness can cite it.
+These rules are mandatory. They come from the proposal *Vision-Based Recognition and Actuation of Unconnected Home Controls* (https://sweg9.github.io/docs/papers/proposal) and its requirements FR-01 to FR-12 (https://sweg9.github.io/docs/product/requirements). They make the seven repos work as one system. A rule has an id so that reviews, tests and the harness can cite it.
 
 | File | Content |
 |---|---|
-| [common.md](common.md) | Rules C-01 to C-12 for every repo |
-| [data-model.md](data-model.md) | Entities, identifiers and the shared enumerations |
-| [execution-log.md](execution-log.md) | The stage record every component must write (FR-16, NFR-08) |
+| [common.md](common.md) | Rules C-01 to C-13 for every repo |
+| [data-model.md](data-model.md) | Records, identifiers and the shared enumerations |
+| [execution-log.md](execution-log.md) | The run log every run must write (FR-12) |
 | [ai-output.md](ai-output.md) | Rules A-01 to A-08 for anything a model produces |
 | [per-repo.md](per-repo.md) | What each repo owns and must satisfy, with known gaps |
 
@@ -23,4 +23,4 @@ These rules are mandatory. They come from the Phase 2 design (https://github.com
 4. Cite rule ids in review comments, for example "violates C-04".
 5. Safety (C-04) and privacy (C-05) have no exceptions and no "later".
 
-The numeric targets in the PRD are hypotheses and live in configuration, not in code (C-12). Everything in this folder is a rule, not a hypothesis.
+When the proposal changes, these standards change with it. The numbers in the proposal are starting values and live in settings files (C-12).

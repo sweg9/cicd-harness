@@ -4,27 +4,31 @@ Each repo owns the items in its row and must satisfy the rules named there. "Gap
 
 | Repo | Owns | Must satisfy |
 |---|---|---|
-| `dataset` | Labeled data and the frozen evaluation sets | Label schema below; C-05 and C-10 for every file; splits that do not leak; an evaluation set is frozen and versioned, failed cases are added as a new version |
-| `ai-engine` | Models and prompts for S1, S2, S4, S5, S6 | A-01 to A-08; C-03; L-08 stage records for its stages; metrics E5 to E8 reproducible with the harness |
-| `backend-server` | Mapping Registry, Routine Engine, Control Orchestrator, Safety Guard, logs, Redis | `data-model.md` entities; L-01 to L-08; C-03 level gate; C-04 Safety Guard decides before any physical command; durable store for mappings and logs, so Redis persistence (AOF) is on; C-06 pause and off switches |
-| `sim-demo` | The Unity simulator demo | Shows S1 to S7 with these ids; behavior rules stay equal to PRD section 6; builds only through `build-sim-demo`; C-06 keys documented in the README. **Gap:** it shows its log on screen only and does not write stage records yet |
-| `live-demo` | The demo with a real camera and AI | C-05 (crop-only upload, opt-in), C-04 (visible stop control), C-03 (Capability Probe before the first run), L-01 to L-08 |
-| `docs` | PRD, plan, prompts, this team's decisions | Requirement ids never renumbered (C-01); targets marked as hypotheses; every standards change explained in its commit |
-| `harness` | Skills, standards, CI | Every merge into any repo passes the gate in `release-gate`; standards change only here |
+| `dataset` | Labels and manifests for the switch-panel photos (photos in S3) | Label schema below; C-05 and C-10 for every file; one whole photo session held out for testing; a test set is frozen and versioned, failure cases are added as a new version |
+| `ai-engine` | Detector (YOLO, 5 classes), fingerprints (DINOv2), sound events (YAMNet), VLM prompts, state verification, motion planner (FR-01, FR-08, FR-09) | A-01 to A-08; detector every 5th frame; re-finding needs fingerprint similarity 0.7; planner swappable (C-13); detector precision and recall reproducible with the harness |
+| `backend-server` | FastAPI backend: Mapping Registry, Routine Engine, Control Orchestrator, channel adapters, Robot Abstraction Layer, safety gate, learning, run log, app API (FR-02 to FR-07, FR-10 to FR-12) | `data-model.md`; L-01 to L-08; C-03 autonomy policy; C-04 safety gate before every arm movement and the emergency stop; C-08 only `Verified` mappings; C-09 channel order and fallback; durable store (SQLite in the prototype); live updates to the app over a WebSocket |
+| `sim-demo` | Unity simulator, an auxiliary tool for the rough demo and tests without the real arm | Same RAL interface as the real arm (C-13); connects to the Python hub over a WebSocket; builds through `build-sim-demo`. **Gap:** it is still an earlier prototype (a house with a mobile robot), has no switch panel with an arm, and does not connect to the hub |
+| `live-demo` | Front end used with the real camera and arm | C-05 (no frames leave the hub), C-04 (visible emergency stop), C-06 (pause and feedback controls). **Gap:** whether the resident's web app (React, TypeScript) lives here is not decided |
+| `docs` | The wiki: proposal, requirements, environment, prompts, labeling spec, API specs | Requirement ids never renumbered (C-01); numbers written as starting values; pages follow the proposal |
+| `harness` | Skills, standards, CI | Every merge into any repo passes `release-gate`; standards change only here and follow the proposal |
 
 ## Label schema (dataset)
 
-One JSON object per labeled control, in a JSON Lines file per image set:
+The full spec is the labeling page of the wiki (https://sweg9.github.io/docs/dataset/labeling). One JSON record per image:
 
 | Field | Rule |
 |---|---|
-| `image_id` | Opaque id of a crop or frame stored outside the repo or already masked |
-| `kind` | actuator kind enum |
-| `bbox` | `[x, y, w, h]`, each 0 to 1 |
-| `device_id` | Optional, the mapped device when known |
-| `room`, `session` | Used for splitting: one room or session never appears in both train and evaluation |
-| `occluded`, `decoy` | Booleans. A decoy looks like a control but is not one (for example a thermostat) |
-| `consent` | Reference to the consent record |
+| `image_id`, `consent` | Opaque id of a photo stored in S3, and its consent record |
+| `room_id` | One specific room in one home. Used for splitting |
+| `room_type` | The kind of room. A hint for the model |
+| `session` | One photo session. A whole session is kept aside for testing; one session never appears in both sets |
+| `controls[].kind` | Control kind enum: `switch` `push_button` `toggle` `knob` `remote` |
+| `controls[].bbox`, `plate_bbox`, `press_point` | Ratios from 0 to 1 of the image |
+| `controls[].state` | `on` `off` `unknown` |
+| `controls[].decoy`, `occluded` | Booleans |
+| `controls[].role` | Device, type, scope, effect and how sure the label is |
+| `controls[].evidence` | Before and after photos. Used to check labels, never as a model input |
+| `status` | `draft` `reviewed` `frozen` |
 
 ## Pull request check
 
