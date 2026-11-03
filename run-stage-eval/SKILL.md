@@ -9,11 +9,9 @@ Targets come from the PRD in https://github.com/sweg9/docs (`sim-demo/PRD.md`, s
 
 ## Input
 
-Run logs written under FR-16, one record per stage. Proposed fields, to be aligned with backend-server:
+Stage records as defined in `standards/execution-log.md` (JSON Lines): `run_id, scenario, stage, component, status, ts, latency_ms, reason`.
 
-`run_id, scenario (1|2|3), stage (S1..S7), status (ok|fail|skipped), latency_ms, reason`
-
-If the logs have different field names, map them and say how in the report.
+Run `check-execution-log` first. Use only runs it accepts and list the excluded ones in the report.
 
 ## Steps
 

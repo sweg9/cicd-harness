@@ -9,7 +9,7 @@ A failed run is attributed to the first stage that failed (PRD, section 5).
 
 ## Steps
 
-1. Get the records for the `run_id`, ordered by stage S1 to S7 and by time.
+1. Get the stage records (`standards/execution-log.md`) for the `run_id`, ordered by stage S1 to S7 and by `ts`. If the log fails `check-execution-log`, say so before going on.
 2. Find the first record with `status = fail`. That stage owns the failure. Later failures are side effects.
 3. Read its `reason` and the record before it. Check whether the input was already weak, for example low confidence in S1 that still passed.
 4. Classify the cause:
