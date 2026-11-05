@@ -10,7 +10,7 @@
 | C-06 | **Resident in control.** The resident can reject a mapping at any time, keep, change or remove any routine, change how independently it acts, pause proactive features, and stop the arm. Manual control of the home is never blocked by a failure of the system. |
 | C-07 | **Explainability.** Every run, including a cancelled one, writes a log entry (`execution-log.md`). The resident can read the intent, channel and reason of any automatic action in plain language, from fixed sentence templates. |
 | C-08 | **Verify before trust.** Only `Verified` mappings are used. A mapping becomes `Verified` only when the observed change is clear and the VLM agrees (FR-02). A `Stale` mapping is verified again before use. A wireless method is kept only if state verification confirmed it (FR-03). |
-| C-09 | **No silent failure.** Every command is followed by state verification (FR-08). Wireless channels are tried in order of learned score, each with a time limit; the arm is used only when the device has no wireless channel or every channel failed (FR-07). `unsure` counts as failure for high-risk devices and is shown to the resident for others. A run ends as `success`, `failure`, `unsure` or `cancelled`, never without a result. |
+| C-09 | **No silent failure.** Every command is followed by state verification (FR-08). Wireless channels are tried in order of learned score, each with a time limit; the arm is used only when the device has no wireless channel or every channel failed (FR-07). An `unsure` result is checked once more after a short wait, without operating the device again. If it is still `unsure`, the run stops and the resident chooses whether to try again or leave it. It never leads to another press. A run ends as `success`, `failure`, `unsure` or `cancelled`, never without a result. |
 | C-10 | **No secrets.** No keys, tokens or passwords in a repo, a log, a prompt or a dataset. Use environment variables or a secret store. |
 | C-11 | **Git hygiene.** Small commits with one purpose each and an imperative English subject of 72 characters or fewer. Generated files, build outputs and logs are ignored, not committed. All text is English; code comments may be Korean. |
 | C-12 | **Starting values in settings.** Numbers from the proposal (time limits, thresholds, retries, weights) are starting values to be tuned. They live in one settings file per repo, never as magic numbers in logic. The risk sorting of devices is also a setting. |
@@ -30,6 +30,7 @@
 | Confidence thresholds | High 0.8, low 0.5 | FR-06 |
 | Time per wireless channel | 5 s | FR-07 |
 | Wait for an effect to appear | 3 s | FR-08 |
+| Wait before checking an `unsure` result again | About 3 s | FR-08 |
 | Fingerprint similarity to re-find a control | 0.7 | FR-09 |
 | Press tries | At most 2 | FR-11 |
 | Weight of the newest result in channel scores | 30% | FR-12 |

@@ -21,7 +21,7 @@ Rules: the `standards` skill (`standards/common.md`, `ai-output.md`, `execution-
 | C-06 | Missing reject, feedback, pause or stop controls; manual control that depends on the system |
 | C-07, L-01 to L-08 | Runs without a log entry; cancelled runs not logged; entries edited after writing; missing plain-language explanation |
 | C-08 | Acting with a mapping that is not `Verified`; a `Stale` mapping used without re-verification; a wireless method kept without verification |
-| C-09 | A command without a state check; arm used before wireless channels are exhausted; endless retries; a run with no result |
+| C-09 | A command without a state check; arm used before wireless channels are exhausted; endless retries; another press after `unsure`; a run with no result |
 | C-10 | Keys, tokens, passwords, personal data |
 | C-11 | Generated files, build outputs or logs committed; non-English text outside code comments |
 | C-12 | Time limits, thresholds, retries or weights written inline in logic instead of a settings file |

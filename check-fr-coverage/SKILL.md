@@ -20,10 +20,10 @@ Requirements, owners and starting values: https://sweg9.github.io/docs/product/r
 | FR-05 | Duplicate triggers within 10 s merge; VLM time-out leads to suggest only |
 | FR-06 | Act, ask or suggest for each risk class and confidence band |
 | FR-07 | No action without a `Verified` mapping; channels tried by score; arm only after all fail |
-| FR-08 | Main check decides; second checks only when it is unsure; `unsure` is failure for high risk |
+| FR-08 | Main check decides; second checks only when it is unsure; `unsure` is checked once more without operating the device, then shown to the resident |
 | FR-09 | Re-finding below similarity 0.7 cancels; option A: homography maps a marker point correctly; option B: the right actuator is chosen for a control |
 | FR-10 | Person or pet in the work area of the arm or the actuators cancels; high-risk devices are never pressed; emergency stop cuts the motors at once |
-| FR-11 | At most 2 tries, gate before each, state check after each |
+| FR-11 | At most 2 tries, only after a failed check, gate before each, state check after each; `unsure` never leads to another press |
 | FR-12 | Channel score uses 30% weight for the newest result; link confidence steps; every run is logged, including cancelled ones |
 
 2. In the repos under test, find tests that name the FR id in a test name, a marker or a comment. Search for `FR-` ids; do not guess from file names.
